@@ -3,6 +3,7 @@ package com.AccioJob.MovieBookingApp.Entities;
 import com.AccioJob.MovieBookingApp.Enums.Language;
 import com.AccioJob.MovieBookingApp.Enums.MovieGenre;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "movies")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieEntity {

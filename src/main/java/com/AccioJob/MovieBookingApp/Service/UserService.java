@@ -6,16 +6,19 @@ import com.AccioJob.MovieBookingApp.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.AccioJob.MovieBookingApp.converters.UserConverters.convertDtoTOEntity;
+
 @Service
 public class UserService {
 
     @Autowired
     UserRepository userRepository;
 
-    public void addUser(UserEntryDto userEntryDto){
+    public String addUser(UserEntryDto userEntryDto) throws Exception{
 
-        UserEntity userEntity = UserEntity.builder().age(userEntryDto.getAge()).name(userEntryDto.getName()).email(userEntryDto.getEmail()).mobNo(userEntryDto.getMobNo()).address(userEntryDto.getAddress()).build();
-
+        UserEntity userEntity = convertDtoTOEntity(userEntryDto);
         userRepository.save(userEntity);
+
+        return "User added successfully";
     }
 }

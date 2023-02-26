@@ -2,6 +2,7 @@ package com.AccioJob.MovieBookingApp.Entities;
 
 import com.AccioJob.MovieBookingApp.Enums.SeatType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "theater_seats")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TheaterSeatEntity {
