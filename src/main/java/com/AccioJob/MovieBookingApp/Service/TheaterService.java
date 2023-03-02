@@ -4,7 +4,7 @@ import com.AccioJob.MovieBookingApp.Entities.TheaterEntity;
 import com.AccioJob.MovieBookingApp.Entities.TheaterSeatEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TheaterEntryDto;
 import com.AccioJob.MovieBookingApp.Enums.SeatType;
-import com.AccioJob.MovieBookingApp.Repository.TheaterSeatRepository;
+import com.AccioJob.MovieBookingApp.Repository.TheaterRepository;
 import com.AccioJob.MovieBookingApp.converters.TheaterConverters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,17 @@ import java.util.List;
 public class TheaterService {
 
     @Autowired
-    TheaterSeatRepository theaterSeatRepository;
+    TheaterRepository theaterRepository;
 
     public String add(TheaterEntryDto theaterEntryDto){
 
         TheaterEntity theaterEntity = TheaterConverters.convertDtoToEntity(theaterEntryDto);
 
         List<TheaterSeatEntity> theaterSeatEntityList = createTheaterSeats(theaterEntryDto,theaterEntity);
+
+        theaterEntity.setTheaterSeatEntity(theaterSeatEntityList);
+
+        theaterRepository.save(theaterEntity);
 
         return "Theater added successfully";
     }
@@ -53,8 +57,6 @@ public class TheaterService {
                     .build();
             theaterSeatEntityList.add(theaterSeatEntity);
         }
-
-        theaterSeatRepository.saveAll(theaterSeatEntityList);
 
         return theaterSeatEntityList;
     }

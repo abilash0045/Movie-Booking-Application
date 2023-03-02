@@ -17,6 +17,6 @@ public class TheaterController {
 
     @PostMapping("/add")
     public String add(@RequestBody TheaterEntryDto theaterEntryDto){
-        return "";
+        return theaterService.add(theaterEntryDto);
     }
 }
