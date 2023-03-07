@@ -2,8 +2,8 @@ package com.AccioJob.MovieBookingApp.Entities;
 
 
 import com.AccioJob.MovieBookingApp.Enums.ShowType;
-import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,6 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "shows")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShowEntity {
