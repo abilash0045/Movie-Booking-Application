@@ -1,6 +1,7 @@
 package com.AccioJob.MovieBookingApp.Service;
 
 import com.AccioJob.MovieBookingApp.Entities.*;
+import com.AccioJob.MovieBookingApp.EntryDTOs.MovieTheaterEntryDto;
 import com.AccioJob.MovieBookingApp.EntryDTOs.ShowEntryDto;
 import com.AccioJob.MovieBookingApp.Enums.SeatType;
 import com.AccioJob.MovieBookingApp.Repository.MovieRepository;
@@ -9,7 +10,9 @@ import com.AccioJob.MovieBookingApp.Repository.TheaterRepository;
 import com.AccioJob.MovieBookingApp.converters.ShowConvertors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,5 +77,13 @@ public class ShowService {
             showSeatEntityList.add(showSeatEntity);
         }
         return showSeatEntityList;
+    }
+
+    public LocalTime getShowTime(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
+
+        LocalTime showTime = showRepository.findShowByTheaterAndMovie(movieTheaterEntryDto.getMovieId(),movieTheaterEntryDto.getTheaterId());
+
+        return showTime;
+
     }
 }
