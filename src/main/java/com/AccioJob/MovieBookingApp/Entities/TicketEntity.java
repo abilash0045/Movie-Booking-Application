@@ -34,6 +34,8 @@ public class TicketEntity {
 
     private String theaterName;
 
+    private String bookedSeats;
+
     @ManyToOne
     @JoinColumn
     private UserEntity userEntity;
