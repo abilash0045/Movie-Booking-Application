@@ -27,9 +27,9 @@ public class ShowController {
     }
 
     @GetMapping("/getShows")
-    public ResponseEntity<LocalTime> getShowTimings(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
+    public ResponseEntity<String> getShowTimings(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
 
-        LocalTime response = showService.getShowTime(movieTheaterEntryDto);
+        String response = showService.getShowTime(movieTheaterEntryDto);
 
         return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }

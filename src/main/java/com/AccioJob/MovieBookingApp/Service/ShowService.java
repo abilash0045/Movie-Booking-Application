@@ -79,11 +79,11 @@ public class ShowService {
         return showSeatEntityList;
     }
 
-    public LocalTime getShowTime(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
+    public String getShowTime(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
 
         LocalTime showTime = showRepository.findShowByTheaterAndMovie(movieTheaterEntryDto.getMovieId(),movieTheaterEntryDto.getTheaterId());
 
-        return showTime;
+        return showTime.toString();
 
     }
 }
