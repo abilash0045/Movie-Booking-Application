@@ -1,11 +1,15 @@
 package com.AccioJob.MovieBookingApp.Controller;
 
+import com.AccioJob.MovieBookingApp.Entities.TheaterEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.GetTheatersShowingDto;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TheaterEntryDto;
 import com.AccioJob.MovieBookingApp.Service.TheaterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("theater")
@@ -19,13 +23,18 @@ public class TheaterController {
         return theaterService.add(theaterEntryDto);
     }
     @GetMapping("/getUniqueLocations")
-    public ResponseEntity uniqueLocations(@RequestParam int theaterId){
+    public ResponseEntity uniqueLocations(@RequestParam String theaterName){
 
-        return null;
+        int response = theaterService.getCountOfUniqueLocation(theaterName);
+
+        return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
 
     @GetMapping("/getTheatersForTime")
     public ResponseEntity getTheatersShowing(@RequestBody GetTheatersShowingDto getTheatersShowingDto){
-        return null;
+
+        List<TheaterEntity> response = theaterService.getTheatersForShowTime(getTheatersShowingDto);
+
+        return new ResponseEntity(response,HttpStatus.FOUND);
     }
 }

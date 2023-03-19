@@ -120,4 +120,26 @@ public class TicketService {
         }
         return true;
     }
+
+    public List<TicketEntity> getTicketsForUser(int userId){
+
+        UserEntity userEntity = userRepository.findById(userId).get();
+
+        return userEntity.getBookedTickets();
+    }
+
+    public String cancelTicket(int ticketId){
+
+        TicketEntity ticketEntity = ticketRepository.findById(ticketId).get();
+
+        List<ShowSeatEntity> showSeatEntityList = ticketEntity.getShow().getShowSeatEntities();
+
+        for (ShowSeatEntity showSeatEntity : showSeatEntityList){
+
+            showSeatEntity.setBooked(false);
+        }
+
+        ticketRepository.delete(ticketEntity);
+        return "ticket cancelled successfully";
+    }
 }

@@ -1,6 +1,7 @@
 package com.AccioJob.MovieBookingApp.Controller;
 
 import com.AccioJob.MovieBookingApp.EntryDTOs.MovieEntryDto;
+import com.AccioJob.MovieBookingApp.EntryDTOs.RatingDto;
 import com.AccioJob.MovieBookingApp.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +37,15 @@ public class MovieController {
     @GetMapping("/getRevenueForMovie")
     public ResponseEntity getRevenueForMovie(@RequestParam int movieId){
 
-        return null;
+        int response = movieService.getRevenue(movieId);
+        return new ResponseEntity(response,HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/rateMovie")
-    public ResponseEntity rateMovie(){
+    public ResponseEntity rateMovie(@RequestBody RatingDto ratingDto){
 
-        return null;
+        String response = movieService.addRating(ratingDto);
+
+        return new ResponseEntity(response,HttpStatus.ACCEPTED);
     }
 }

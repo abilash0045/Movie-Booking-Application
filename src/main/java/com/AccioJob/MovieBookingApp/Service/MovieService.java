@@ -2,7 +2,9 @@ package com.AccioJob.MovieBookingApp.Service;
 
 import com.AccioJob.MovieBookingApp.Entities.MovieEntity;
 import com.AccioJob.MovieBookingApp.Entities.ShowEntity;
+import com.AccioJob.MovieBookingApp.Entities.ShowSeatEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.MovieEntryDto;
+import com.AccioJob.MovieBookingApp.EntryDTOs.RatingDto;
 import com.AccioJob.MovieBookingApp.Repository.MovieRepository;
 import com.AccioJob.MovieBookingApp.Repository.ShowRepository;
 import com.AccioJob.MovieBookingApp.converters.MovieConverters;
@@ -35,5 +37,35 @@ public class MovieService {
         MovieEntity movieEntity = movieRepository.findById(movieEntityId).get();
 
         return movieEntity.getMovieName();
+    }
+
+    public int getRevenue(int movieId){
+
+
+        MovieEntity movieEntity = movieRepository.findById(movieId).get();
+        List<ShowEntity> shows = movieEntity.getShowEntities();
+
+        int totalRevenue = 0;
+        for (ShowEntity showEntity : shows){
+
+            List<ShowSeatEntity> showSeatEntities = showEntity.getShowSeatEntities();
+
+            for (ShowSeatEntity showSeatEntity : showSeatEntities){
+
+                if (showSeatEntity.isBooked()){
+                    totalRevenue += showSeatEntity.getPrice();
+                }
+            }
+        }
+        return totalRevenue;
+    }
+
+    public String addRating(RatingDto ratingDto){
+
+        MovieEntity movieEntity = movieRepository.findById(ratingDto.getMovieId()).get();
+        movieEntity.setRating(ratingDto.getRating());
+        movieRepository.save(movieEntity);
+
+        return "rating added successfully";
     }
 }
