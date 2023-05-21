@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("movie")
 public class MovieController {
 
-    @Autowired
-    MovieService movieService;
+    MovieService movieService = new MovieService();
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity addMovie(@RequestBody MovieEntryDto movieEntryDto){
         try {
             String response = movieService.addMovie(movieEntryDto);

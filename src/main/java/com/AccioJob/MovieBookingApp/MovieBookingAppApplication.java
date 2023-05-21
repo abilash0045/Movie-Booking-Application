@@ -10,6 +10,8 @@ public class MovieBookingAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MovieBookingAppApplication.class, args);
+		ExtractEndpoints extractEndpoints = new ExtractEndpoints();
+		extractEndpoints.fun();
 	}
 
 }
