@@ -1,6 +1,6 @@
 package com.AccioJob.MovieBookingApp.Service;
 
-import com.AccioJob.MovieBookingApp.Entities.UserEntity;
+import com.AccioJob.MovieBookingApp.Domain.UserEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.UserEntryDto;
 import com.AccioJob.MovieBookingApp.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,8 @@ public class UserService {
 
     public String addUser(UserEntryDto userEntryDto) throws Exception{
 
-        UserEntity userEntity = convertDtoTOEntity(userEntryDto);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(userEntryDto.getName());;
         userRepository.save(userEntity);
 
         return "User added successfully";

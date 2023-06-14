@@ -1,6 +1,6 @@
 package com.AccioJob.MovieBookingApp.Controller;
 
-import com.AccioJob.MovieBookingApp.Entities.TicketEntity;
+import com.AccioJob.MovieBookingApp.Domain.TicketEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TicketEntryDto;
 import com.AccioJob.MovieBookingApp.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +29,14 @@ public class TicketController {
         }
     }
     @GetMapping("/getTicketsByUser")
-    public ResponseEntity getTicketsByUserId(@RequestParam int userId){
+    public ResponseEntity getTicketsByUserId(@RequestParam String userId){
 
         List<TicketEntity> response = ticketService.getTicketsForUser(userId);
         return new ResponseEntity<>(response,HttpStatus.FOUND);
     }
 
     @DeleteMapping("/cancelTicket")
-    public ResponseEntity cancelTicket(@RequestParam int ticketId){
+    public ResponseEntity cancelTicket(@RequestParam String ticketId){
 
         String response = ticketService.cancelTicket(ticketId);
         return new ResponseEntity<>(response,HttpStatus.FOUND);

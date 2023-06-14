@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MovieTheaterEntryDto {
 
-    private int movieId;
+    private String movieId;
 
-    private int theaterId;
+    private String theaterId;
 }

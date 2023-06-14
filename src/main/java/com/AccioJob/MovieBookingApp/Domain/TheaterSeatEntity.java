@@ -1,15 +1,15 @@
-package com.AccioJob.MovieBookingApp.Entities;
+package com.AccioJob.MovieBookingApp.Domain;
 
 import com.AccioJob.MovieBookingApp.Enums.SeatType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "theater_seats")
+@Document
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,16 +17,10 @@ import javax.persistence.*;
 public class TheaterSeatEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     private String seatNo;
 
-    @Enumerated(value = EnumType.STRING)
     private SeatType seatTypes;
-
-    @ManyToOne
-    @JoinColumn
-    private TheaterEntity theaterEntity;
 
 }

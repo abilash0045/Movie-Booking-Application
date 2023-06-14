@@ -9,8 +9,8 @@ public class TicketEntryDto {
 
     private List<String> requestedSeats;
 
-    private int showId;
+    private String showId;
 
-    private int userId;
+    private String userId;
 
 }

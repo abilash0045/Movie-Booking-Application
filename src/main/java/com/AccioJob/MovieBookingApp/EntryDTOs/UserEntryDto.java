@@ -1,9 +1,6 @@
 package com.AccioJob.MovieBookingApp.EntryDTOs;
 
 import lombok.Data;
-import lombok.NonNull;
-
-import javax.persistence.Column;
 
 @Data
 public class UserEntryDto {

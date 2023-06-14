@@ -1,17 +1,15 @@
 package com.AccioJob.MovieBookingApp.Repository;
 
-import com.AccioJob.MovieBookingApp.Entities.MovieEntity;
-import com.AccioJob.MovieBookingApp.Entities.ShowEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import com.AccioJob.MovieBookingApp.Domain.MovieEntity;
+import com.AccioJob.MovieBookingApp.Domain.ShowEntity;
+import com.AccioJob.MovieBookingApp.Domain.TheaterEntity;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalTime;
+import java.util.List;
 
 @Repository
-public interface ShowRepository extends JpaRepository<ShowEntity,Integer> {
+public interface ShowRepository extends MongoRepository<ShowEntity,String> {
 
-    @Query(value = "select show_time from shows where movie_entity_id = :movieId and theater_entity_id = :theaterId",nativeQuery = true)
-    public LocalTime findShowByTheaterAndMovie(@Param("movieId") int movieId, @Param("theaterId") int theaterId);
+    List<ShowEntity> findByMovieEntityAndTheaterEntity(MovieEntity movieEntity, TheaterEntity theaterEntity);
 }

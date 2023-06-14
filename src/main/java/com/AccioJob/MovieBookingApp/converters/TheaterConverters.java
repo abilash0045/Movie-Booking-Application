@@ -1,6 +1,6 @@
 package com.AccioJob.MovieBookingApp.converters;
 
-import com.AccioJob.MovieBookingApp.Entities.TheaterEntity;
+import com.AccioJob.MovieBookingApp.Domain.TheaterEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TheaterEntryDto;
 
 public class TheaterConverters {

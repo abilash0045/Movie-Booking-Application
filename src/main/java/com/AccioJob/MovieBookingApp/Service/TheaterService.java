@@ -1,14 +1,17 @@
 package com.AccioJob.MovieBookingApp.Service;
 
-import com.AccioJob.MovieBookingApp.Entities.ShowEntity;
-import com.AccioJob.MovieBookingApp.Entities.TheaterEntity;
-import com.AccioJob.MovieBookingApp.Entities.TheaterSeatEntity;
+import com.AccioJob.MovieBookingApp.Domain.ShowEntity;
+import com.AccioJob.MovieBookingApp.Domain.TheaterEntity;
+import com.AccioJob.MovieBookingApp.Domain.TheaterSeatEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.GetTheatersShowingDto;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TheaterEntryDto;
 import com.AccioJob.MovieBookingApp.Enums.SeatType;
 import com.AccioJob.MovieBookingApp.Repository.ShowRepository;
 import com.AccioJob.MovieBookingApp.Repository.TheaterRepository;
+import com.AccioJob.MovieBookingApp.Repository.TheaterSeatRepository;
 import com.AccioJob.MovieBookingApp.converters.TheaterConverters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +22,25 @@ import java.util.List;
 @Service
 public class TheaterService {
 
+
+    Logger logger = LoggerFactory.getLogger(LoggerFactory.class);
+
     @Autowired
     TheaterRepository theaterRepository;
 
     @Autowired
     ShowRepository showRepository;
 
+    @Autowired
+    TheaterSeatRepository theaterSeatRepository;
+
     public String add(TheaterEntryDto theaterEntryDto){
 
         TheaterEntity theaterEntity = TheaterConverters.convertDtoToEntity(theaterEntryDto);
 
         List<TheaterSeatEntity> theaterSeatEntityList = createTheaterSeats(theaterEntryDto,theaterEntity);
+
+        logger.info("Created seats " + theaterSeatEntityList.toString());
 
         theaterEntity.setTheaterSeatEntity(theaterSeatEntityList);
 
@@ -50,9 +61,8 @@ public class TheaterService {
             TheaterSeatEntity theaterSeatEntity = TheaterSeatEntity.builder()
                     .seatTypes(SeatType.CLASSIC)
                     .seatNo(count + "C")
-                    .theaterEntity(theaterEntity)
                     .build();
-            theaterSeatEntityList.add(theaterSeatEntity);
+            theaterSeatEntityList.add(theaterSeatRepository.save(theaterSeatEntity));
         }
 
         for (int count =1;count <= premiumSeatsCount;count++){
@@ -60,9 +70,8 @@ public class TheaterService {
             TheaterSeatEntity theaterSeatEntity = TheaterSeatEntity.builder()
                     .seatTypes(SeatType.PREMIUM)
                     .seatNo(count+"C")
-                    .theaterEntity(theaterEntity)
                     .build();
-            theaterSeatEntityList.add(theaterSeatEntity);
+            theaterSeatEntityList.add(theaterSeatRepository.save(theaterSeatEntity));
         }
 
         return theaterSeatEntityList;

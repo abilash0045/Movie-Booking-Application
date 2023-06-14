@@ -18,9 +18,9 @@ public class ShowEntryDto {
 
     private ShowType showType;
 
-    private int movieId;
+    private String movieId;
 
-    private int theaterId;
+    private String theaterId;
 
     private int classicSeats;
 

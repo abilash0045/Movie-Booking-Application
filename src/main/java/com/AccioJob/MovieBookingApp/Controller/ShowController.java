@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("show")
@@ -27,9 +28,9 @@ public class ShowController {
     }
 
     @GetMapping("/getShows")
-    public ResponseEntity<String> getShowTimings(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
+    public ResponseEntity<List<LocalTime>> getShowTimings(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
 
-        String response = showService.getShowTime(movieTheaterEntryDto);
+        List<LocalTime> response = showService.getShowTime(movieTheaterEntryDto);
 
         return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }

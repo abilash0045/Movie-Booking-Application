@@ -1,4 +1,4 @@
-package com.AccioJob.MovieBookingApp.Entities;
+package com.AccioJob.MovieBookingApp.Domain;
 
 
 import com.AccioJob.MovieBookingApp.Enums.ShowType;
@@ -6,18 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "shows")
+@Document
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,33 +24,29 @@ import java.util.List;
 public class ShowEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     private LocalDate showDate;
 
     private LocalTime showTime;
 
-    @Enumerated(value = EnumType.STRING)
     private ShowType showType;
 
-    @CreationTimestamp
+    @CreatedDate
     private Date createdOn;
 
-    @UpdateTimestamp
+    @CreatedDate
     private Date updatedOn;
 
-    @ManyToOne
-    @JoinColumn
+    @DBRef
     private MovieEntity movieEntity;
 
-    @ManyToOne
-    @JoinColumn
+    @DBRef
     private TheaterEntity theaterEntity;
 
-    @OneToMany(mappedBy = "show",cascade = CascadeType.ALL)
+    @DBRef
     private List<TicketEntity> ticketEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "showEntity",cascade = CascadeType.ALL)
+    @DBRef
     private List<ShowSeatEntity> showSeatEntities = new ArrayList<>();
 }

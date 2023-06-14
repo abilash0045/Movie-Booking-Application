@@ -1,17 +1,18 @@
-package com.AccioJob.MovieBookingApp.Entities;
+package com.AccioJob.MovieBookingApp.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "tickets")
+@Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +20,7 @@ import java.util.UUID;
 public class TicketEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     private String movieName;
 
@@ -36,12 +36,12 @@ public class TicketEntity {
 
     private String bookedSeats;
 
-    @ManyToOne
-    @JoinColumn
-    private UserEntity userEntity;
+    @JsonIgnore
+    @DBRef
+    private ShowEntity showEntity;
 
-    @ManyToOne
-    @JoinColumn
-    private ShowEntity show;
+    @JsonIgnore
+    @DBRef
+    private UserEntity userEntity;
 
 }

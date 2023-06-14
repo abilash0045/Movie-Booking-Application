@@ -1,13 +1,15 @@
 package com.AccioJob.MovieBookingApp.Service;
 
-import com.AccioJob.MovieBookingApp.Entities.MovieEntity;
-import com.AccioJob.MovieBookingApp.Entities.ShowEntity;
-import com.AccioJob.MovieBookingApp.Entities.ShowSeatEntity;
+import com.AccioJob.MovieBookingApp.Domain.MovieEntity;
+import com.AccioJob.MovieBookingApp.Domain.ShowEntity;
+import com.AccioJob.MovieBookingApp.Domain.ShowSeatEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.MovieEntryDto;
 import com.AccioJob.MovieBookingApp.EntryDTOs.RatingDto;
 import com.AccioJob.MovieBookingApp.Repository.MovieRepository;
 import com.AccioJob.MovieBookingApp.Repository.ShowRepository;
 import com.AccioJob.MovieBookingApp.converters.MovieConverters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Service
 public class MovieService {
+
+    Logger logger = LoggerFactory.getLogger(LoggerFactory.class);
 
     @Autowired
     MovieRepository movieRepository;
@@ -24,7 +28,10 @@ public class MovieService {
 
     public String addMovie (MovieEntryDto movieEntryDto) throws Exception{
 
+        logger.info("inside add method");
+
         MovieEntity movieEntity = MovieConverters.movieDtoToEntity(movieEntryDto);
+        logger.info("converted to entity" + movieEntity.toString());
 
         movieRepository.save(movieEntity);
 
@@ -32,14 +39,15 @@ public class MovieService {
     }
     public String getMovieWithMaxShows(){
 
-        int movieEntityId = movieRepository.getMaxShowMovie();
+//        String movieEntityId = movieRepository.getMaxShowMovie();
 
-        MovieEntity movieEntity = movieRepository.findById(movieEntityId).get();
-
-        return movieEntity.getMovieName();
+//        MovieEntity movieEntity = movieRepository.findById(movieEntityId).get();
+//
+//        return movieEntity.getMovieName();
+        return null;
     }
 
-    public int getRevenue(int movieId){
+    public int getRevenue(String movieId){
 
 
         MovieEntity movieEntity = movieRepository.findById(movieId).get();
@@ -67,5 +75,9 @@ public class MovieService {
         movieRepository.save(movieEntity);
 
         return "rating added successfully";
+    }
+
+    public MovieEntity findByMovieName(String movieName){
+        return movieRepository.findByMovieNameIgnoreCase(movieName);
     }
 }

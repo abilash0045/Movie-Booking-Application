@@ -1,6 +1,6 @@
 package com.AccioJob.MovieBookingApp.Controller;
 
-import com.AccioJob.MovieBookingApp.Entities.TheaterEntity;
+import com.AccioJob.MovieBookingApp.Domain.TheaterEntity;
 import com.AccioJob.MovieBookingApp.EntryDTOs.GetTheatersShowingDto;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TheaterEntryDto;
 import com.AccioJob.MovieBookingApp.Service.TheaterService;

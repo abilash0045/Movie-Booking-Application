@@ -1,16 +1,16 @@
-package com.AccioJob.MovieBookingApp.Entities;
+package com.AccioJob.MovieBookingApp.Domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "theaters")
+@Document
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,16 +18,15 @@ import java.util.List;
 public class TheaterEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     private String name;
 
     private String location;
 
-    @OneToMany(mappedBy = "theaterEntity",cascade = CascadeType.ALL)
+    @DBRef
     private List<TheaterSeatEntity> theaterSeatEntity = new ArrayList<>();
 
-    @OneToMany(mappedBy = "theaterEntity",cascade = CascadeType.ALL)
+    @DBRef
     private List<ShowEntity> showEntities = new ArrayList<>();
 }

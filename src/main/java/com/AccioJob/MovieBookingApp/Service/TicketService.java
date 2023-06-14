@@ -1,16 +1,13 @@
 package com.AccioJob.MovieBookingApp.Service;
 
-import com.AccioJob.MovieBookingApp.Entities.*;
+import com.AccioJob.MovieBookingApp.Domain.*;
 import com.AccioJob.MovieBookingApp.EntryDTOs.TicketEntryDto;
 import com.AccioJob.MovieBookingApp.Repository.ShowRepository;
 import com.AccioJob.MovieBookingApp.Repository.TicketRepository;
 import com.AccioJob.MovieBookingApp.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.List;
 
@@ -26,15 +23,15 @@ public class TicketService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    JavaMailSender javaMailSender;
+//    @Autowired
+//    JavaMailSender javaMailSender;
 
     public String bookTickets(TicketEntryDto ticketEntryDto) throws Exception{
 
         TicketEntity ticketEntity = new TicketEntity();
 
         ShowEntity showEntity = showRepository.findById(ticketEntryDto.getShowId()).get();
-        ticketEntity.setShow(showEntity);
+        ticketEntity.setShowEntity(showEntity);
         ticketEntity.setShowDate(showEntity.getShowDate());
         ticketEntity.setShowTime(showEntity.getShowTime());
 
@@ -79,17 +76,17 @@ public class TicketService {
         showRepository.save(showEntity);
 
         // Email integration
-        String body = "Hi this is to confirm your booking for seat No "+bookedSeats +"for the movie : " + ticketEntity.getMovieName();
-
-
-        MimeMessage mimeMessage=javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mimeMessage,true);
-        mimeMessageHelper.setFrom("moviebookingapp.com@gmail.com");
-        mimeMessageHelper.setTo(userEntity.getEmail());
-        mimeMessageHelper.setText(body);
-        mimeMessageHelper.setSubject("Confirming your booked Ticket");
-
-        javaMailSender.send(mimeMessage);
+//        String body = "Hi this is to confirm your booking for seat No "+bookedSeats +"for the movie : " + ticketEntity.getMovieName();
+//
+//
+//        MimeMessage mimeMessage=javaMailSender.createMimeMessage();
+//        MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mimeMessage,true);
+//        mimeMessageHelper.setFrom("moviebookingapp.com@gmail.com");
+//        mimeMessageHelper.setTo(userEntity.getEmail());
+//        mimeMessageHelper.setText(body);
+//        mimeMessageHelper.setSubject("Confirming your booked Ticket");
+//
+//        javaMailSender.send(mimeMessage);
 
         return "Ticket Booked Successfully";
     }
@@ -121,18 +118,18 @@ public class TicketService {
         return true;
     }
 
-    public List<TicketEntity> getTicketsForUser(int userId){
+    public List<TicketEntity> getTicketsForUser(String userId){
 
         UserEntity userEntity = userRepository.findById(userId).get();
 
         return userEntity.getBookedTickets();
     }
 
-    public String cancelTicket(int ticketId){
+    public String cancelTicket(String ticketId){
 
         TicketEntity ticketEntity = ticketRepository.findById(ticketId).get();
 
-        List<ShowSeatEntity> showSeatEntityList = ticketEntity.getShow().getShowSeatEntities();
+        List<ShowSeatEntity> showSeatEntityList = ticketEntity.getShowEntity().getShowSeatEntities();
 
         for (ShowSeatEntity showSeatEntity : showSeatEntityList){
 

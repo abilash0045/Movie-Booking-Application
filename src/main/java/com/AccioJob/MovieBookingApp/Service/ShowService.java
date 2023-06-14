@@ -1,11 +1,12 @@
 package com.AccioJob.MovieBookingApp.Service;
 
-import com.AccioJob.MovieBookingApp.Entities.*;
+import com.AccioJob.MovieBookingApp.Domain.*;
 import com.AccioJob.MovieBookingApp.EntryDTOs.MovieTheaterEntryDto;
 import com.AccioJob.MovieBookingApp.EntryDTOs.ShowEntryDto;
 import com.AccioJob.MovieBookingApp.Enums.SeatType;
 import com.AccioJob.MovieBookingApp.Repository.MovieRepository;
 import com.AccioJob.MovieBookingApp.Repository.ShowRepository;
+import com.AccioJob.MovieBookingApp.Repository.ShowSeatRepository;
 import com.AccioJob.MovieBookingApp.Repository.TheaterRepository;
 import com.AccioJob.MovieBookingApp.converters.ShowConvertors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShowService {
@@ -28,19 +30,23 @@ public class ShowService {
     @Autowired
     ShowRepository showRepository;
 
+    @Autowired
+    ShowSeatRepository showSeatRepository;
+
 
     public String addShow(ShowEntryDto showEntryDto){
         ShowEntity showEntity = ShowConvertors.showEntryToEntity(showEntryDto);
 
         MovieEntity movieEntity = movieRepository.findById(showEntryDto.getMovieId()).get();
-        showEntity.setMovieEntity(movieEntity);
 
         TheaterEntity theaterEntity = theaterRepository.findById(showEntryDto.getTheaterId()).get();
-        showEntity.setTheaterEntity(theaterEntity);
 
         List<ShowSeatEntity> showSeatEntityList = addShowSeats(showEntryDto,showEntity);
 
         showEntity.setShowSeatEntities(showSeatEntityList);
+
+        showEntity.setMovieEntity(movieEntity);
+        showEntity.setTheaterEntity(theaterEntity);
 
         showEntity = showRepository.save(showEntity);
 
@@ -72,18 +78,25 @@ public class ShowService {
                 showSeatEntity.setPrice(showEntryDto.getPremiumSeats());
             }
 
-            showSeatEntity.setShowEntity(showEntity);
-
-            showSeatEntityList.add(showSeatEntity);
+            showSeatEntityList.add(showSeatRepository.save(showSeatEntity));
         }
         return showSeatEntityList;
     }
 
-    public String getShowTime(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
+    public List<LocalTime> getShowTime(@RequestBody MovieTheaterEntryDto movieTheaterEntryDto){
 
-        LocalTime showTime = showRepository.findShowByTheaterAndMovie(movieTheaterEntryDto.getMovieId(),movieTheaterEntryDto.getTheaterId());
+        Optional<MovieEntity> movieEntity = movieRepository.findById(movieTheaterEntryDto.getMovieId());
 
-        return showTime.toString();
+        Optional<TheaterEntity> theaterEntity = theaterRepository.findById(movieTheaterEntryDto.getTheaterId());
 
+
+        List<ShowEntity> showEntities = showRepository.findByMovieEntityAndTheaterEntity(movieEntity.get(),theaterEntity.get());
+
+        List<LocalTime> showTimes = new ArrayList<>();
+
+        for (ShowEntity showEntity : showEntities){
+            showTimes.add(showEntity.getShowTime());
+        }
+        return showTimes;
     }
 }

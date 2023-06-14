@@ -1,41 +1,40 @@
-package com.AccioJob.MovieBookingApp.Entities;
+package com.AccioJob.MovieBookingApp.Domain;
 
 import com.AccioJob.MovieBookingApp.Enums.Language;
 import com.AccioJob.MovieBookingApp.Enums.MovieGenre;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "movies")
+@Document
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @Column(unique = true,nullable = false)
+    @Id
+    private String id;
+
     private String movieName;
 
     private double rating;
 
     private int duration;
 
-    @Enumerated(value = EnumType.STRING)
     private MovieGenre movieGenre;
 
-    @Enumerated(value = EnumType.STRING)
     private Language language;
 
-    @OneToMany(mappedBy = "movieEntity",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @DBRef
     List<ShowEntity> showEntities = new ArrayList<>();
 
 }
